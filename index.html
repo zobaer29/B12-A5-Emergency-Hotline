@@ -266,4 +266,123 @@ function init() {
         </li>
       `).join('');
     }
-</script>
+ // Show toast notification
+    function showToast(message, isError = false) {
+      toastMessage.textContent = message;
+      toastEl.style.backgroundColor = isError ? '#ef4444' : '#16a34a';
+      toastEl.classList.remove('opacity-0');
+      toastEl.classList.add('opacity-100');
+      
+      setTimeout(() => {
+        toastEl.classList.remove('opacity-100');
+        toastEl.classList.add('opacity-0');
+      }, 3000);
+    }
+
+    // Add to call history
+    function addHistory(name, phone) {
+      const time = new Date().toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+      state.callHistory.unshift({ name, phone, time });
+      
+      // Keep only last 10 history items
+      if (state.callHistory.length > 10) {
+        state.callHistory.pop();
+      }
+      
+      renderHistory();
+      saveToLocalStorage();
+    }
+
+    // Save state to localStorage
+    function saveToLocalStorage() {
+      localStorage.setItem('emergencyAppState', JSON.stringify(state));
+    }
+
+// Load state from localStorage
+function loadFromLocalStorage() {
+  const savedState = localStorage.getItem('emergencyAppState');
+  if (savedState) {
+    const parsed = JSON.parse(savedState);
+    state = { ...state, ...parsed };
+  } else {
+    // ✅ First run, ensure defaults
+    state = {
+      heartCount: 0,
+      coinCount: 100,
+      copyCount: 0,
+      callHistory: []
+    };
+    saveToLocalStorage();
+  }
+  updateUI();
+}
+
+
+    // Event listeners
+    document.addEventListener('click', async (e) => {
+      const target = e.target.closest('button');
+      if (!target) return;
+
+      // Heart button
+      if (target.classList.contains('heart-btn')) {
+        const heartIcon = target.querySelector('i');
+        heartIcon.classList.remove('far');
+        heartIcon.classList.add('fas', 'heart-animation');
+        setTimeout(() => heartIcon.classList.remove('heart-animation'), 500);
+        
+        state.heartCount++;
+        updateUI();
+        saveToLocalStorage();
+        return;
+      }
+
+      // Copy button
+      if (target.classList.contains('copy-btn')) {
+        const phone = target.getAttribute('data-phone');
+        const name = target.getAttribute('data-name');
+        
+        try {
+          await navigator.clipboard.writeText(phone);
+          state.copyCount++;
+          updateUI();
+          saveToLocalStorage();
+          showToast(`Copied: ${name} — ${phone}`);
+        } catch (err) {
+          showToast('Copy failed. Please try again.', true);
+        }
+        return;
+      }
+
+      // Call button
+      if (target.classList.contains('call-btn')) {
+        const phone = target.getAttribute('data-phone');
+        const name = target.getAttribute('data-name');
+        
+        if (state.coinCount < 20) {
+          showToast('Not enough coins. Need 20 coins to make a call.', true);
+          return;
+        }
+        
+        state.coinCount -= 20;
+        updateUI();
+        saveToLocalStorage();
+        showToast(`Calling ${name} at ${phone}...`);
+        addHistory(name, phone);
+        return;
+      }
+
+      // Clear history button
+      if (target.id === 'clearHistory') {
+        state.callHistory = [];
+        renderHistory();
+        saveToLocalStorage();
+        showToast('Call history cleared');
+      }
+    });
+
+    // Initialize the app
+    init();
+  </script>
+</body>
+
+</html>
