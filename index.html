@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <!-- tailwind css cdn  -->
+  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+  <!-- daisy ui link  -->
+  <link href="https://cdn.jsdelivr.net/npm/daisyui@5" rel="stylesheet" type="text/css" />
+  <!-- font awesome cdn  -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.0/css/all.min.css"
+    integrity="sha512-DxV+EoADOkOygM4IR9yXP8Sb2qwgidEmeqAEmDKIOfPRQZOWbXCzLC6vjbZyy0vPisbH2SyW27+ddLVCN+OMzQ=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <title>Emergency Hotline</title>
+  <style>
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    }
+    .service-card {
+      transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+    .service-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+    }
+    .heart-animation {
+      animation: pulse 0.5s;
+    }
+    @keyframes pulse {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.3); }
+      100% { transform: scale(1); }
+    }
+  </style>
+</head>
+
+<body class="bg-gray-50">
+  <header>
+    <!-- navbar start  -->
+    <nav class="flex flex-col md:flex-row justify-between items-center mx-5 py-5">
+      <div class="flex items-center gap-2 mb-2 md:mb-0">
+        <img class="w-[50px]" src="assets/logo.png" alt="Emergency Service Logo">
+        <h4 class="md:text-xl text-sm text-green-900 font-bold">Emergency <br> Service</h4>
+      </div>
+      <div class="flex justify-center items-center gap-1 md:gap-4 text-xs md:text-sm">
+        <div class="flex items-center justify-center gap-2 px-4 py-2 bg-green-100 rounded-3xl">
+          <p id="heart-count" class="font-bold">0</p>
+          <img class="w-[25px]" src="assets/heart.png" alt="Heart Icon">
+        </div>
+        <div class="flex items-center justify-center gap-2 px-4 py-2 bg-green-100 rounded-3xl">
+          <p id="coin" class="font-bold">100</p>
+          <img class="w-[24px]" src="assets/coin.png" alt="Coin Icon">
+        </div>
+        <div class="flex items-center justify-center gap-2 px-4 py-2 text-white bg-[#2faf5e] rounded-3xl">
+          <p id="copy-count" class="font-bold">0</p>
+          <p class="font-bold">Copy</p>
+        </div>
+      </div>
+    </nav>
+    <!-- nav end  -->
+
+    <!-- banner start  -->
+    <div class="text-center py-10 bg-gradient-to-r from-green-950 via-green-800 to-green-950 text-white">
+      <img src="assets/logo.png" alt="govt logo" class="w-16 h-16 mx-auto mb-2">
+      <h1 class="text-2xl font-bold">জরুরি সেবা ডিরেক্টরি</h1>
+      <p class="text-sm mt-1 px-4">
+        Government Emergency Services at Your Fingertip – A Project by Government of the People’s Republic of Bangladesh
+      </p>
+    </div>
+    <!-- banner end  -->
+  </header>
+  </html>
